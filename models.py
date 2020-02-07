@@ -2,14 +2,16 @@ from app_settings import app, db
 
 
 class Host(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
+	__tablename__ = 'hosts'
+	host_id = db.Column(db.Integer(), primary_key=True)
 	name = db.Column(db.String(80), nullable=False)
 
 	def __repr__(self):
-		return '<Host %r>' % self.id
+		return '<Host {name} {host_id}>'.format(name=self.name, host_id=self.host_id)
 
 class Appartment(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
+	__tablename__ = 'appartments'
+	appartment_id = db.Column(db.Integer(), primary_key=True)
 	name = db.Column(db.String(80), nullable=False)
 	neighbourhood_group = db.Column(db.String(80), nullable=False)
 	neighbourhood = db.Column(db.String(80), nullable=False)
@@ -24,7 +26,8 @@ class Appartment(db.Model):
 	calculated_host_listings_count = db.Column(db.Numeric(), nullable=True)
 	availability_365 = db.Column(db.Numeric(), nullable=True)
 
-	host = db.relationship("Host", backref=db.backref("host", uselist=False))
+	host_id = db.Column(db.Integer(), nullable=False)
+
 
 	def __repr__(self):
 		return '<Appartment {name} {neighbourhood} {neighbourhood_group}>'.format(
@@ -32,3 +35,4 @@ class Appartment(db.Model):
 			neighbourhood=self.neighbourhood,
 			neighbourhood_group=self.neighbourhood_group
 		)
+
